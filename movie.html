@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="bootstrapMovie.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<header class="Header">
+		<table class="Title">
+			<tbody>
+				<tr>
+					<td>
+						<img width="70" src="logo.png"/>
+					</td>
+					<td>
+						<h1>  Movie DB Search</h1>
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+	</header>
+
+
+		<div class="jumbotron" style="padding:0; margin:0;">
+			<h3 class="text-center" style="padding:70px;"><b>Search for any Movie</b></h3>
+  				<div class="input-group">
+    				<input type="text" class="form-control" placeholder="Enter Search Term" aria-label="Enter search Term" aria-describedby="btnGroupAddon" onchange="SearchChangeHandler(event)">
+    				<button style="padding-left: 10px;" type="button" class="btn btn-secondary"><b>Request Movie</b></button>
+    				</input>
+				</div>
+		</div>
+
+	<div class="container1"> 
+    </div>
+
+	<script type="text/javascript">
+
+				var request = new XMLHttpRequest();
+				 //var urlString = "https://api.themoviedb.org/3/search/movie?query=marvel&api_key=ba858e7d96898da9ef46797bb6403e80"
+					function performSearch(searchTerm){
+
+					var urlString = "https://api.themoviedb.org/3/search/movie?&api_key=ba858e7d96898da9ef46797bb6403e80&query=" + searchTerm
+					request.open('GET', urlString, true);	
+
+					 $("button").click(function(){
+					 									
+					$.ajax({	//Fetch data from internet: ajax	
+					
+						success: function(searchResults){
+							
+							var data = JSON.parse(request.response);
+							results = data.results
+							var movieRowsTitle = []
+							var movieRowsDescription = []
+							var movieRowsPicturesSrc = []
+							var movieRowsPictures = []
+							var movieReleaseDate = []
+							var i =0
+							//for (var i=0; i<results.length;i++){
+								while(i <results.length){
+
+								var movie = results[i];
+								var title = movie.title
+								var overview = movie.overview;
+								var releaseDate = movie.release_date;
+
+								movie.poster_src = "https://image.tmdb.org/t/p/w500/"+ movie.poster_path;
+								movieRowsPicturesSrc.push(movie.poster_src)
+
+								movieRowsTitle.push(title);
+								movieRowsDescription.push(overview);
+								movieReleaseDate.push(releaseDate);
+
+								var divMovie = document.createElement('div');
+								divMovie.className = "divMovie";
+								document.getElementsByClassName("container1")[0].appendChild(divMovie);
+
+								var divPicture = document.createElement('div');
+								divPicture.className ="divPicture";
+
+								var image = document.createElement('img');
+								image.className = "image";
+								image.setAttribute("src",movieRowsPicturesSrc[i])
+
+								var divInfo = document.createElement('div');
+								divInfo.className ="divInfo";
+
+								var headerInfo = document.createElement('h3')
+								headerInfo.className="headerInfo";
+
+								var paragraphInfo = document.createElement('p')
+								paragraphInfo.className ="paragraphInfo";
+
+								var parareleaseDate= document.createElement('p')
+								parareleaseDate.className="parareleaseDate";
+
+								divMovie.appendChild(divPicture);
+								divMovie.appendChild(divInfo);
+
+								divInfo.appendChild(headerInfo)
+								divInfo.appendChild(paragraphInfo)
+								divInfo.appendChild(parareleaseDate)
+
+								divPicture.appendChild(image);
+
+								headerInfo.innerHTML +=movieRowsTitle[i];
+
+								paragraphInfo.innerHTML+=movieRowsDescription[i]
+
+								parareleaseDate.innerHTML+=movieReleaseDate[i]
+			
+
+								$(".image").html(movie.poster_src);
+
+								i++;
+
+							}
+							
+							 
+						},
+						error : function(xhr,status,err){
+									console.log("Error Message")
+								}										
+					})
+				})
+						request.send();	
+				}
+
+					function SearchChangeHandler(event){
+						const searchTerm = event.target.value
+						window.onload =performSearch(searchTerm);
+					}
+	</script>
+
+</body>
+</html>

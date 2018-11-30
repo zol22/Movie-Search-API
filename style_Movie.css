@@ -1,0 +1,36 @@
+table{
+	background-color: purple;
+	display:block;
+	color: #fff;
+	font-size: large;
+	padding-left: 25px;
+}
+#container{
+	background-image: url("movie.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	border:5px solid red;
+	
+
+}
+.Search{
+	padding-top:10px;
+	border:5px solid blue;
+
+}
+.searchMovie{
+	font-size: large;
+	display:block;
+	width: 50%;
+	border:5px solid orange;
+
+}
+ #btn{
+ 	display:block;
+ 	border:5px solid black;
+ }
+ #info{
+ 	font-size: medium;
+ 	font-family: "Arial";
+ 	border:5px solid yellow;
+ }
